@@ -74,7 +74,26 @@ public class Main {
       System.out.println("\n------------------");
     }
 
+    System.out.println("Time to search:");
+    System.out.println("What last name would you like to search for: ");
+    String searchName = scan.nextLine();
 
+    try {
+      PreparedStatement pstmt = conn.prepareStatement("SELECT fname, lname FROM Employee WHERE lname LIKE ?");
+      pstmt.setString(1, searchName + "%");
+      ResultSet nameRS = pstmt.executeQuery();
+
+      while (nameRS.next()) {
+        System.out.println("Possible match: "
+            + nameRS.getString("fname") + " "
+            + nameRS.getString("lname"));
+      }
+
+      pstmt.close();
+    } catch (SQLException e) {
+      System.out.println("No results Found");
+      e.printStackTrace();
+    }
 
     try {
       if (conn != null) {
@@ -84,7 +103,6 @@ public class Main {
       System.out.println("Could not close the Database");
       e.printStackTrace();
     }
-
 
   }
 

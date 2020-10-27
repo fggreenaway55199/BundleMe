@@ -30,13 +30,17 @@ public class Main {
       e.printStackTrace();
     }
 
-    int id = 1115;
+    Statement selectStmt = conn.createStatement();
+    int id = selectStmt.executeQuery("SELECT eid FROM Employee ORDER BY eid DESC LIMIT 1;")
+               .getInt("eid") + 1;
+    System.out.println("Your id is " + id);
+
     Scanner scan = new Scanner(System.in);
 
     String nameInserts = "INSERT INTO Employee (eid, fname, lname, zipcode, dept_number) VALUES "
-        + "(?, ?, ?, 62522, 8);";
+        + "(?, ?, ?, 10915, 2);";
 
-    for (int i = 0; i<4; i++) {
+    for (int i = 0; i<1; i++) {
       String firstName = "";
       String lastName = "";
 
@@ -58,7 +62,7 @@ public class Main {
       }
     }
 
-    Statement selectStmt = conn.createStatement();
+    selectStmt = conn.createStatement();
     ResultSet rsAllSearch = selectStmt.executeQuery("SELECT * FROM Employee;");
 
     while (rsAllSearch.next()) {
@@ -69,6 +73,7 @@ public class Main {
       System.out.println("Zipcode = " + rsAllSearch.getInt("zipcode"));
       System.out.println("\n------------------");
     }
+
 
 
     try {
